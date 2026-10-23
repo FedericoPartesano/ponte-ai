@@ -1,0 +1,23 @@
+{
+  "name": "@ponte-ai/app",
+  "productName": "Ponte AI",
+  "version": "0.1.0",
+  "private": true,
+  "author": "Federico Partesano",
+  "type": "module",
+  "description": "App Windows con icona nella barra: collega il PC agli assistenti AI dei progetti",
+  "main": "main.mjs",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis"
+  },
+  "dependencies": { "@ponte-ai/core": "*", "cross-spawn": "^7.0.6" },
+  "devDependencies": { "electron": "^45.0.0", "electron-builder": "^26.0.0" },
+  "build": {
+    "appId": "com.ponteai.app",
+    "productName": "Ponte AI",
+    "files": ["main.mjs", "preload.cjs", "ui/**", "icon.png"],
+    "win": { "target": "nsis", "icon": "icon.png" },
+    "nsis": { "oneClick": true, "perMachine": false, "runAfterFinish": true }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "@ponte-ai/core",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Ponte locale: collega il PC dell'utente al backend e lancia `claude` per la chat (prototipo da riga di comando)",
+  "bin": { "ponte-ai": "bridge.mjs" },
+  "scripts": { "test": "node --test" },
+  "dependencies": { "cross-spawn": "^7.0.6", "socket.io-client": "^4.7.5" }
+}

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><title>Ponte AI</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'">
+<link rel="stylesheet" href="stile.css"></head>
+<body>
+<header class="testata">
+  <div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18M5 17v-4a7 7 0 0 1 14 0v4M12 6v2"/></svg></div>
+  <div><h1>Ponte AI</h1><div class="sotto">Gli assistenti AI lavorano dal tuo computer</div></div>
+</header>
+
+<section id="riepilogo" class="riepilogo"><span class="grande"></span><div><strong id="r-titolo"></strong><span id="r-frase" class="t"></span></div></section>
+
+<h2>Claude</h2>
+<section class="scheda claude">
+  <span id="claude-spunta" class="spunta"></span>
+  <div class="testo" id="claude-testo"></div>
+  <button id="claude-azione" class="btn" hidden></button>
+</section>
+
+<h2>Codice di abbinamento</h2>
+<section class="scheda codice">
+  <div class="testo"><div id="codice" class="valore"></div><div class="sotto">Inseriscilo una volta nella chat dell'applicazione, per collegare il browser a questo computer.</div></div>
+  <button id="copia" class="btn">Copia</button>
+</section>
+
+<h2>Applicazioni</h2>
+<section class="scheda" id="elenco-scheda">
+  <div id="elenco"></div>
+  <div id="vuoto" class="vuoto" hidden><b>Nessuna applicazione collegata</b>Aggiungine una per usare l'assistente AI.</div>
+</section>
+<button id="apri-form" class="aggiungi">+ Aggiungi un'applicazione</button>
+
+<form id="form" class="scheda" hidden>
+  <h3>Nuova applicazione</h3>
+  <label id="riga-it" hidden>Scegli dall'elenco<select id="scelta"><option value="">Un altro indirizzo…</option></select></label>
+  <label>Nome<input id="nome" placeholder="Es. SmartLookup"></label>
+  <label>Indirizzo<input id="server" required placeholder="http://nome-server:porta"></label>
+  <label>Utente<input id="utente" required autocomplete="username"></label>
+  <label>Password<input id="password" type="password" required autocomplete="current-password"></label>
+  <div id="errore" class="errore"></div>
+  <div class="form-azioni"><button type="button" id="annulla" class="btn">Annulla</button><button class="btn primario" type="submit">Collega</button></div>
+</form>
+
+<footer class="pie">
+  <label>Avvia insieme a Windows <button type="button" role="switch" id="auto" class="interruttore" aria-checked="false"></button></label>
+</footer>
+<script src="app.js"></script>
+</body></html>

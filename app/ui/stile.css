@@ -1,0 +1,90 @@
+:root{
+  --bg:#f4f5f9;--card:#fff;--bordo:#e6e8f0;--testo:#161a26;--muto:#6a7085;
+  --accento:#4f46e5;--accento-t:#fff;--ok:#16a34a;--att:#d97706;--err:#dc2626;--off:#a3a8b8;
+  --ok-bg:#e8f7ee;--att-bg:#fdf3e3;--err-bg:#fdeaea;--off-bg:#eceef4;
+  --ombra:0 1px 2px rgba(20,24,40,.06),0 4px 14px rgba(20,24,40,.04);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#12141c;--card:#1b1e29;--bordo:#2a2e3d;--testo:#eceef6;--muto:#9aa0b6;
+  --accento:#7c83ff;--accento-t:#0f1020;--ok:#4ade80;--att:#fbbf24;--err:#f87171;--off:#5b6176;
+  --ok-bg:#16301f;--att-bg:#33270f;--err-bg:#361a1c;--off-bg:#262a38;--ombra:none;
+}}
+*{box-sizing:border-box}
+body{margin:0;padding:22px 20px 28px;font:14px/1.45 "Segoe UI",system-ui,sans-serif;color:var(--testo);background:var(--bg);-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+.testata{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.logo{width:38px;height:38px;border-radius:11px;background:var(--accento);display:grid;place-items:center;flex:none}
+.logo svg{width:22px;height:22px;stroke:var(--accento-t)}
+h1{font-size:19px;line-height:1.2;margin:0;font-weight:650;letter-spacing:-.01em}
+.sotto{color:var(--muto);font-size:13px;margin-top:2px}
+
+/* stato complessivo */
+.riepilogo{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;margin-bottom:18px;background:var(--off-bg)}
+.riepilogo.ok{background:var(--ok-bg)}.riepilogo.att{background:var(--att-bg)}.riepilogo.err{background:var(--err-bg)}
+.riepilogo .grande{width:12px;height:12px;border-radius:50%;background:var(--off);flex:none}
+.riepilogo.ok .grande{background:var(--ok)}.riepilogo.att .grande{background:var(--att)}.riepilogo.err .grande{background:var(--err)}
+.riepilogo.ok .grande{box-shadow:0 0 0 5px color-mix(in srgb,var(--ok) 22%,transparent)}
+.riepilogo strong{display:block;font-size:15px;font-weight:600}
+.riepilogo span.t{color:var(--muto);font-size:13px}
+
+h2{font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muto);font-weight:600;margin:20px 2px 8px}
+.scheda{background:var(--card);border:1px solid var(--bordo);border-radius:14px;box-shadow:var(--ombra)}
+
+/* claude */
+.claude{display:flex;align-items:center;gap:12px;padding:12px 14px}
+.claude .testo{flex:1;min-width:0}.claude b{font-weight:600}
+.spunta{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--off-bg);color:var(--muto)}
+.spunta.ok{background:var(--ok-bg);color:var(--ok)}.spunta.err{background:var(--err-bg);color:var(--err)}.spunta.att{background:var(--att-bg);color:var(--att)}
+.spunta svg{width:13px;height:13px}
+
+/* connessioni */
+.conn{display:flex;align-items:center;gap:12px;padding:13px 14px}
+.conn+.conn{border-top:1px solid var(--bordo)}
+.conn .info{flex:1;min-width:0}
+.conn .nome{font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.conn .indirizzo{color:var(--muto);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.pillola{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:550;margin-top:5px;padding:2px 9px 2px 7px;border-radius:99px;background:var(--off-bg);color:var(--muto)}
+.pillola i{width:7px;height:7px;border-radius:50%;background:var(--off)}
+.pillola.ok{background:var(--ok-bg);color:var(--ok)}.pillola.ok i{background:var(--ok)}
+.pillola.att{background:var(--att-bg);color:var(--att)}.pillola.att i{background:var(--att);animation:lampeggia 1.2s infinite}
+.pillola.err{background:var(--err-bg);color:var(--err)}.pillola.err i{background:var(--err)}
+@keyframes lampeggia{50%{opacity:.35}}
+
+.interruttore{position:relative;width:42px;height:24px;flex:none;border:0;padding:0;border-radius:99px;background:var(--off);cursor:pointer;transition:background .15s}
+.interruttore::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .15s}
+.interruttore[aria-checked=true]{background:var(--accento)}
+.interruttore[aria-checked=true]::after{transform:translateX(18px)}
+.interruttore:disabled{opacity:.4;cursor:not-allowed}
+.icona{width:30px;height:30px;flex:none;border:0;border-radius:8px;background:none;color:var(--muto);cursor:pointer;display:grid;place-items:center}
+.icona:hover{background:var(--err-bg);color:var(--err)}.icona svg{width:16px;height:16px}
+
+.vuoto{padding:26px 16px;text-align:center;color:var(--muto)}
+.vuoto b{display:block;color:var(--testo);margin-bottom:2px}
+
+/* bottoni e form */
+button{font:inherit}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:36px;padding:0 16px;border-radius:9px;border:1px solid var(--bordo);background:var(--card);color:var(--testo);font-weight:550;cursor:pointer}
+.btn:hover{border-color:var(--accento)}
+.btn.primario{background:var(--accento);border-color:var(--accento);color:var(--accento-t)}
+.btn.primario:hover{filter:brightness(1.08)}
+.btn.pieno{width:100%}
+.btn svg{width:15px;height:15px}
+.aggiungi{margin-top:10px;width:100%;height:44px;border:1.5px dashed var(--bordo);background:none;color:var(--muto);border-radius:12px;font-weight:550;cursor:pointer}
+.aggiungi:hover{border-color:var(--accento);color:var(--accento)}
+form{padding:16px;margin-top:10px}
+form h3{margin:0 0 4px;font-size:15px}
+label{display:block;font-size:12.5px;font-weight:550;color:var(--muto);margin-top:12px}
+input:not([type=checkbox]),select{display:block;width:100%;height:38px;margin-top:5px;padding:0 11px;border:1px solid var(--bordo);border-radius:9px;background:var(--bg);color:var(--testo);font:inherit;outline:none}
+input:focus,select:focus{border-color:var(--accento);box-shadow:0 0 0 3px color-mix(in srgb,var(--accento) 22%,transparent)}
+.errore{color:var(--err);font-size:13px;min-height:20px;margin-top:10px}
+.form-azioni{display:flex;gap:8px;margin-top:6px}.form-azioni .primario{flex:1}
+
+.pie{display:flex;align-items:center;justify-content:space-between;margin-top:22px;padding:0 2px;color:var(--muto);font-size:13px}
+.pie label{display:flex;align-items:center;gap:10px;margin:0;font-size:13px;font-weight:400;color:var(--testo);cursor:pointer}
+.pie .interruttore{width:36px;height:20px}.pie .interruttore::after{width:14px;height:14px}
+.pie .interruttore[aria-checked=true]::after{transform:translateX(16px)}
+
+.codice{display:flex;align-items:center;gap:12px;padding:14px}
+.codice .testo{flex:1;min-width:0}
+.codice .valore{font:600 22px/1.2 ui-monospace,Consolas,monospace;letter-spacing:.14em;user-select:all}
+.codice .sotto{margin-top:4px}
