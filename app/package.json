@@ -51,8 +51,13 @@
       "executableName": "ponte-ai",
       "syncDesktopName": true
     },
-    "executableName": "ponte-ai"
+    "executableName": "ponte-ai",
+    "publish": null
   },
   "homepage": "https://github.com/FedericoPartesano/ponte-ai",
-  "desktopName": "ponte-ai.desktop"
+  "desktopName": "ponte-ai.desktop",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FedericoPartesano/ponte-ai.git"
+  }
 }
