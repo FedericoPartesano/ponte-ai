@@ -1,7 +1,7 @@
 {
   "name": "@ponte-ai/app",
   "productName": "Ponte AI",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": true,
   "author": "Federico Partesano",
   "type": "module",
@@ -9,7 +9,7 @@
   "main": "main.mjs",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder --win nsis",
+    "dist": "electron-builder --win nsis zip --x64",
     "dist:linux": "electron-builder --linux AppImage"
   },
   "dependencies": {
@@ -30,8 +30,13 @@
       "icon.png"
     ],
     "win": {
-      "target": "nsis",
-      "icon": "icon.png"
+      "target": [
+        "nsis",
+        "zip"
+      ],
+      "icon": "icon.png",
+      "executableName": "ponte-ai",
+      "artifactName": "ponte-ai-${version}-windows-${arch}.${ext}"
     },
     "nsis": {
       "oneClick": true,
