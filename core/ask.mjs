@@ -6,7 +6,7 @@ const server = (arg('server') ?? '').replace(/\/$/, '');
 const message = process.argv.filter((a, i, v) => !a.startsWith('--') && !v[i - 1]?.startsWith('--')).at(-1);
 const login = await fetch(`${server}/auth/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: arg('user'), password: arg('password') }) });
 const { accessToken } = await login.json();
-const H = { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' };
+const H = { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json', ...(arg('code') ? { 'x-bridge-code': arg('code').replace(/-/g, '') } : {}) };
 console.log('stato:', await (await fetch(`${server}/agent/status`, { headers: H })).json());
 const ac = new AbortController();
 process.on('SIGINT', () => ac.abort());

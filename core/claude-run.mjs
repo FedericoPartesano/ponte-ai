@@ -35,6 +35,7 @@ async function avvia({ prompt, token, mcpUrl, sessionId, onEvent, onClose }) {
     '--permission-mode', 'auto',
     '--output-format', 'stream-json', '--verbose', '--include-partial-messages',
     '--restricted',
+    '--tools', '',
   ];
   if (sessionId) args.push('--resume', sessionId);
 
