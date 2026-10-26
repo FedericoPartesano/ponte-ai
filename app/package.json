@@ -1,7 +1,7 @@
 {
   "name": "@ponte-ai/app",
   "productName": "Ponte AI",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "author": "Federico Partesano",
   "type": "module",
@@ -59,5 +59,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/FedericoPartesano/ponte-ai.git"
-  }
+  },
+  "shortVersionWindows": "0.1.5"
 }
