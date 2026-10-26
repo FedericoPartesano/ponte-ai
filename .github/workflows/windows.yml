@@ -43,7 +43,9 @@ jobs:
           if [ "$RUNNER_OS" = "Linux" ]; then
             gh release upload "$TAG" app/dist/ponte-ai-*-linux-x86_64.AppImage --clobber
           else
-            gh release upload "$TAG" app/dist/ponte-ai-*-windows-x64.exe app/dist/ponte-ai-*-windows-x64.zip --clobber
+            # Il launcher su Windows accetta solo .msi o *-windows-x64-portable.zip
+            for f in app/dist/ponte-ai-*-windows-x64.zip; do mv "$f" "${f%.zip}-portable.zip"; done
+            gh release upload "$TAG" app/dist/ponte-ai-*-windows-x64.exe app/dist/ponte-ai-*-windows-x64-portable.zip --clobber
           fi
 
   somme:
