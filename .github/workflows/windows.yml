@@ -1,0 +1,30 @@
+name: Installer Windows
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag della release a cui aggiungere l'installer (es. v0.1.2)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm run dist
+        working-directory: app
+      - name: Carica sulla release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ inputs.tag }}" app/dist/ponte-ai-*-win-x64.exe --clobber
