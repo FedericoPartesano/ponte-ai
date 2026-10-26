@@ -9,8 +9,8 @@
   "main": "main.mjs",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder --win nsis zip --x64",
-    "dist:linux": "electron-builder --linux AppImage"
+    "dist": "electron-builder --win nsis zip --x64 --publish never",
+    "dist:linux": "electron-builder --linux AppImage --publish never"
   },
   "dependencies": {
     "@ponte-ai/core": "*",
