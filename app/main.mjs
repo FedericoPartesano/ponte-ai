@@ -13,7 +13,7 @@ const fileConfig = () => join(app.getPath('userData'), 'config.json');
 if (!app.requestSingleInstanceLock()) app.quit();
 
 // ---- configurazione: piu' connessioni (una per server/progetto).
-// La password e' cifrata con Windows, mai in chiaro su disco.
+// La password e cifrata con il sistema (Windows); dove non si puo, resta in chiaro con permessi 0600.
 let cfg = { connessioni: [], avvioAuto: true, codice: '' };
 try {
   const letto = JSON.parse(readFileSync(fileConfig(), 'utf8'));
@@ -23,11 +23,17 @@ try {
     cfg.connessioni = [{ id: randomUUID(), nome: 'Server', server: letto.server, utente: letto.utente, password: letto.password, acceso: letto.acceso !== false }];
   }
 } catch { /* prima volta */ }
-const salva = () => writeFileSync(fileConfig(), JSON.stringify({ connessioni: cfg.connessioni, avvioAuto: cfg.avvioAuto, codice: cfg.codice }));
+const salva = () => writeFileSync(fileConfig(), JSON.stringify({ connessioni: cfg.connessioni, avvioAuto: cfg.avvioAuto, codice: cfg.codice }), { mode: 0o600 });
 // Codice di abbinamento: uno per installazione, fisso. Il server instrada le chat per utente + codice.
 if (!cfg.codice) { cfg.codice = nuovoCodice(); try { salva(); } catch { /* si riprova al prossimo salvataggio */ } }
-const cifra = (p) => (safeStorage.isEncryptionAvailable() ? safeStorage.encryptString(p).toString('base64') : '');
-const decifra = (c) => { try { return safeStorage.decryptString(Buffer.from(c.password, 'base64')); } catch { return ''; } };
+// Senza portachiavi (es. Linux/WSL) la password resta in chiaro nel file, leggibile solo dal tuo utente (0600).
+const cifra = (p) => (safeStorage.isEncryptionAvailable() ? safeStorage.encryptString(p).toString('base64') : `chiaro:${Buffer.from(p).toString('base64')}`);
+const decifra = (c) => {
+  try {
+    if (c.password.startsWith('chiaro:')) return Buffer.from(c.password.slice(7), 'base64').toString();
+    return safeStorage.decryptString(Buffer.from(c.password, 'base64'));
+  } catch { return ''; }
+};
 
 /**
  * Elenco opzionale preparato dall'IT: un file `server.json` con `[{ "nome": "...", "server": "http://..." }]`.
@@ -145,7 +151,6 @@ ipcMain.handle('aggiungi', async (_e, { nome, server, utente, password }) => {
   if (cfg.connessioni.some((c) => c.server === server && c.utente === utente)) return { errore: 'Questa connessione esiste già.' };
   try { await login(server, utente, password); } catch (e) { return { errore: e.message }; }
   const cifrata = cifra(password);
-  if (!cifrata) return { errore: 'Windows non permette di salvare la password in modo sicuro' };
   const c = { id: randomUUID(), nome: String(nome ?? '').trim() || server.replace(/^https?:\/\//i, ''), server, utente, password: cifrata, acceso: true };
   cfg.connessioni.push(c);
   salva();
