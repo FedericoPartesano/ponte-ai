@@ -1,7 +1,7 @@
 {
   "name": "@ponte-ai/app",
   "productName": "Ponte AI",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": true,
   "author": "Federico Partesano",
   "type": "module",
@@ -54,7 +54,7 @@
     },
     "executableName": "ponte-ai",
     "publish": null,
-    "afterPack": "scripts/after-pack.cjs"
+    "afterSign": "scripts/after-pack.cjs"
   },
   "homepage": "https://github.com/FedericoPartesano/ponte-ai",
   "desktopName": "ponte-ai.desktop",
@@ -62,5 +62,5 @@
     "type": "git",
     "url": "https://github.com/FedericoPartesano/ponte-ai.git"
   },
-  "shortVersionWindows": "0.1.6"
+  "shortVersionWindows": "0.1.7"
 }
