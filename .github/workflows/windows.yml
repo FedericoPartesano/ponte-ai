@@ -45,3 +45,16 @@ jobs:
           else
             gh release upload "$TAG" app/dist/ponte-ai-*-windows-x64.exe app/dist/ponte-ai-*-windows-x64.zip --clobber
           fi
+
+  somme:
+    needs: costruisci
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ inputs.tag || github.ref_name }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: SHA256SUMS.txt (il launcher trova i file da qui)
+        run: |
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "ponte-ai-*"
+          sha256sum ponte-ai-* > SHA256SUMS.txt
+          gh release upload "$TAG" SHA256SUMS.txt --clobber --repo "$GITHUB_REPOSITORY"
