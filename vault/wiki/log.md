@@ -1,5 +1,8 @@
 # Log
 
+## [2026-10-27] update | release 0.1.8
+- Pubblicata v0.1.8 (AppImage, exe, zip portabile, SHA256SUMS). ProductVersion dello zip verificato. Aggiornati [[productversion-uguale-alla-versione]], [[problemi-incontrati-nel-rilascio]].
+
 ## [2026-10-27] ingest | scheda Attività 0.1.8
 - Creato [[scheda-attivita]]; aggiornati [[ponte-ai-app]] e [[ponte-ai-core]].
 

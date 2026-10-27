@@ -1,6 +1,6 @@
 ---
 type: concept
-title: Problemi incontrati nel rilascio (0.1.2-0.1.7)
+title: Problemi incontrati nel rilascio (0.1.2-0.1.8)
 tags: [rilascio, launcher, diagnosi]
 related: [regole-asset-del-launcher, productversion-uguale-alla-versione, workflow-di-rilascio]
 created: 2026-10-27
@@ -37,4 +37,5 @@ Dal sintomo alla causa, in ordine di apparizione.
 
 - Rifare una release: cancellarla con `gh release delete vX --cleanup-tag`, non riscrivere il tag.
 - Il launcher legge il catalogo da `catalog.json` (voce `ponte-ai` → repo `FedericoPartesano/ponte-ai`).
-- Dalla 0.1.7 l'installazione sul PC di un collega non è ancora confermata.
+- Dalla 0.1.7 l'installazione sul PC di un collega non è ancora confermata (vale anche per la 0.1.8).
+- 0.1.8 pubblicata dal tag senza intoppi (workflow ok, ~4 min); `ProductVersion` dell'exe nello zip portabile verificato: `0.1.8`.

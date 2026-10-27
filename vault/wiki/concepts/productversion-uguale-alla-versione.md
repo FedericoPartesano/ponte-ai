@@ -15,6 +15,6 @@ electron-builder scrive `0.1.5.0` (quattro numeri) e il launcher non lo riconosc
 | `-c.extraMetadata.shortVersionWindows` | nessun effetto |
 | `shortVersionWindows` in `package.json` | nessun effetto da solo (resta `0.1.5.0`) |
 | `rcedit` in `afterPack` | troppo presto: electron-builder riscrive le risorse dopo |
-| `rcedit` in **`afterSign`** (`app/scripts/after-pack.cjs`) | funziona: `0.1.7` |
+| `rcedit` in **`afterSign`** (`app/scripts/after-pack.cjs`) | funziona: `0.1.7`, confermato anche in `0.1.8` |
 
 Verifica dopo ogni build: scaricare lo zip, estrarre `ponte-ai.exe` e cercare `ProductVersion` con `strings -el`.
