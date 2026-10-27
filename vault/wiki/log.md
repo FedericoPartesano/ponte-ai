@@ -1,5 +1,8 @@
 # Log
 
+## [2026-10-27] update | verifica troncamento
+- Aggiornata la sezione Verifica di [[scheda-attivita]].
+
 ## [2026-10-27] update | release 0.1.9
 - Contenuto espandibile nella scheda Attività; aggiornato [[scheda-attivita]].
 

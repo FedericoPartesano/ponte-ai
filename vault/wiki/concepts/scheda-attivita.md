@@ -26,4 +26,4 @@ Dalla 0.1.8 (contenuto espandibile dalla 0.1.9) l'app ha due schede: «Connessio
 
 ## Verifica
 
-Provato nell'app Electron con un server Socket.IO finto e `claude` vero (richieste, cancel, Pausa, Riprendi, Svuota, contatore). Espansione provata nell'app con `claude` vero; troncamento a 4000 caratteri e strumenti MCP reali non provati.
+Provato nell'app Electron con un server Socket.IO finto e `claude` vero (richieste, cancel, Pausa, Riprendi, Svuota, contatore). Espansione provata nell'app con `claude` vero. Troncamento provato a livello di core con un prompt di 4520 caratteri: la voce `run` ha 4000 caratteri più «… troncato (4520 caratteri)» (4028 in tutto); a `claude` il prompt arriva intero, il limite vale solo per l'anteprima. Non provati: risposta finale lunga, aspetto del testo troncato nella UI, strumenti MCP reali.
