@@ -6,8 +6,9 @@ import { avviaClaude } from './claude-run.mjs';
  * Il ponte come libreria (lo usano la riga di comando e l'app Windows).
  * `getToken` e' richiamata a ogni (ri)connessione: un token scaduto non ferma il ponte.
  * `onStato`: 'connesso' | 'scollegato' | 'errore' (con dettaglio).
- * `onTraffico({ dir: 'in'|'out'|'sys', tipo, runId?, dettaglio?, ms?, errore? })`: una voce per ogni messaggio
- * da/verso il server. Mai il contenuto di prompt e risposte; il testo in streaming conta come una sola voce per run.
+ * `onTraffico({ dir: 'in'|'out'|'sys', tipo, runId?, dettaglio?, ms?, errore?, contenuto? })`: una voce per ogni messaggio
+ * da/verso il server. `contenuto` (opzionale): prompt, risposta finale o messaggio d'errore, troncato a 4000 caratteri.
+ * Il testo in streaming conta come una sola voce per run.
  */
 export function creaPonte({ server, code, getToken, log = () => {}, onStato = () => {}, onRun = () => {}, onTraffico = () => {} }) {
   server = server.replace(/\/$/, '');
@@ -19,6 +20,8 @@ export function creaPonte({ server, code, getToken, log = () => {}, onStato = ()
   const attive = new Map();
   const t0 = new Map(); // runId -> inizio
   const testoVisto = new Set();
+  const MAX_TESTO = 4000;
+  const tronca = (t) => { t = String(t ?? ''); return t.length > MAX_TESTO ? `${t.slice(0, MAX_TESTO)}\n… troncato (${t.length} caratteri)` : t; };
   const traffico = (v) => { try { onTraffico({ ts: Date.now(), ...v }); } catch { /* la UI non deve fermare il ponte */ } };
   socket.on('connect', () => { log(`collegato a ${server}`); onStato('connesso'); traffico({ dir: 'sys', tipo: 'collegato' }); });
   socket.on('disconnect', (m) => { log(`scollegato (${m})`); onStato('scollegato', m); traffico({ dir: 'sys', tipo: 'scollegato', dettaglio: m, errore: m !== 'io client disconnect' }); });
@@ -27,7 +30,7 @@ export function creaPonte({ server, code, getToken, log = () => {}, onStato = ()
     log(`run ${runId.slice(0, 8)} avviato`);
     onRun(attive.size + 1);
     t0.set(runId, Date.now());
-    traffico({ dir: 'in', tipo: 'run', runId, dettaglio: sessionId ? 'sessione ripresa' : 'nuova sessione' });
+    traffico({ dir: 'in', tipo: 'run', runId, dettaglio: sessionId ? 'sessione ripresa' : 'nuova sessione', contenuto: tronca(prompt) });
     const invia = (event) => {
       socket.emit('event', { runId, event });
       if (event.type === 'text') { if (testoVisto.has(runId)) return; testoVisto.add(runId); traffico({ dir: 'out', tipo: 'risposta in corso', runId }); return; }
@@ -35,6 +38,7 @@ export function creaPonte({ server, code, getToken, log = () => {}, onStato = ()
       if (ms !== undefined) { t0.delete(runId); testoVisto.delete(runId); }
       traffico({
         dir: 'out', runId, ms,
+        contenuto: event.type === 'done' ? tronca(event.reply) : event.type === 'error' ? tronca(event.message) : undefined,
         tipo: event.type === 'tool' ? `strumento ${event.name} ${event.phase === 'start' ? 'avvio' : 'fine'}` : event.type === 'done' ? 'risposta completa' : event.type,
         errore: Boolean(event.isError) || event.type === 'error' || (event.type === 'done' && event.isError),
       });

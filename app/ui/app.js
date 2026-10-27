@@ -134,13 +134,28 @@ let inPausa = false, nonLette = 0, righe = 0;
 const MAX_RIGHE = 500;
 const ora = (t) => new Date(t).toLocaleTimeString('it-IT', { hour12: false });
 function rigaTraffico(v) {
+  const voce = el('div', 'voce');
   const r = el('div', `riga ${v.dir}${v.errore ? ' err' : ''}`);
   const freccia = { in: '←', out: '→', sys: '•' }[v.dir];
   const tipo = [v.tipo, v.dettaglio && `(${v.dettaglio})`].filter(Boolean).join(' ');
   r.append(el('span', 'ora', ora(v.ts)), el('span', 'dir', freccia), el('span', 'conn-n', v.conn), el('span', 'tipo', tipo));
   if (v.runId) r.append(el('span', 'conn-n', `#${v.runId}`));
   if (v.ms !== undefined) r.append(el('span', 'ms', v.ms < 1000 ? `${v.ms} ms` : `${(v.ms / 1000).toFixed(1)} s`));
-  return r;
+  voce.append(r);
+  if (v.contenuto) {
+    r.classList.add('espandibile');
+    r.tabIndex = 0;
+    r.setAttribute('role', 'button');
+    r.setAttribute('aria-expanded', 'false');
+    r.prepend(el('span', 'freccia', '▸'));
+    const pre = el('pre', 'contenuto', v.contenuto);
+    pre.hidden = true;
+    const alterna = () => { pre.hidden = !pre.hidden; r.setAttribute('aria-expanded', String(!pre.hidden)); r.firstChild.textContent = pre.hidden ? '▸' : '▾'; };
+    r.onclick = alterna;
+    r.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); alterna(); } };
+    voce.append(pre);
+  }
+  return voce;
 }
 function aggiungiTraffico(v) {
   if (inPausa) return;

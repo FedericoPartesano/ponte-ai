@@ -1,5 +1,8 @@
 # Log
 
+## [2026-10-27] update | release 0.1.9
+- Contenuto espandibile nella scheda Attività; aggiornato [[scheda-attivita]].
+
 ## [2026-10-27] update | release 0.1.8
 - Pubblicata v0.1.8 (AppImage, exe, zip portabile, SHA256SUMS). ProductVersion dello zip verificato. Aggiornati [[productversion-uguale-alla-versione]], [[problemi-incontrati-nel-rilascio]].
 

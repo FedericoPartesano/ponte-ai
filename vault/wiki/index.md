@@ -14,5 +14,5 @@
 - [[password-in-chiaro-senza-portachiavi]] — fallback su Linux/WSL
 - [[claude-limitato-agli-strumenti-mcp]] — cosa può fare Claude lanciato dal ponte
 - [[codice-di-abbinamento]] — instradare le chat con un account condiviso
-- [[scheda-attivita]] — terminale delle richieste in entrata e uscita (0.1.8)
+- [[scheda-attivita]] — terminale delle richieste in entrata e uscita (0.1.8, contenuto espandibile 0.1.9)
 - [[problemi-incontrati-nel-rilascio]] — sintomi, cause e rimedi delle release 0.1.2-0.1.8

@@ -105,3 +105,9 @@ input:focus,select:focus{border-color:var(--accento);box-shadow:0 0 0 3px color-
 .term .err .tipo,.term .err .dir{color:var(--err)}
 .term .conn-n{color:var(--muto)}.term .tipo{overflow:hidden;text-overflow:ellipsis}.term .ms{color:var(--muto)}
 .term .vuoto{padding:30px 0}
+
+.term .voce{margin:0}
+.term .espandibile{cursor:pointer}.term .espandibile:hover{background:rgba(255,255,255,.04)}
+.term .freccia{width:10px;flex:none;color:var(--muto)}
+.term .riga:not(.espandibile){padding-left:18px}
+.term pre.contenuto{margin:2px 0 6px 18px;padding:8px 10px;max-height:220px;overflow:auto;white-space:pre-wrap;word-break:break-word;border-radius:8px;background:var(--card);border:1px solid var(--bordo);color:var(--testo);font:inherit}
