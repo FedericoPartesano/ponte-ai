@@ -90,3 +90,18 @@ input:focus,select:focus{border-color:var(--accento);box-shadow:0 0 0 3px color-
 ::-webkit-scrollbar{width:10px}::-webkit-scrollbar-thumb{background:var(--bordo);border-radius:99px;border:2px solid var(--bg)}::-webkit-scrollbar-track{background:var(--bg)}
 .aggiungi{background:rgba(124,131,255,.04)}
 .aggiungi:hover{background:rgba(124,131,255,.10)}
+
+/* schede e attivita' (terminale) */
+.schede{display:flex;gap:4px;margin-bottom:16px;padding:4px;border-radius:11px;background:var(--card);border:1px solid var(--bordo)}
+.schede button{flex:1;height:32px;border:0;border-radius:8px;background:none;color:var(--muto);font-weight:550;cursor:pointer}
+.schede button[aria-selected=true]{background:var(--card-alt);color:var(--testo);box-shadow:0 0 0 1px var(--bordo)}
+.conta{display:inline-block;min-width:18px;padding:0 6px;border-radius:99px;background:var(--accento);color:var(--accento-t);font-size:11px;font-weight:700}
+.barra-att{display:flex;align-items:center;gap:8px;margin-bottom:8px}.spazio{flex:1}
+.btn.piccolo{height:28px;padding:0 11px;font-size:12.5px}
+.term{height:calc(100vh - 230px);min-height:300px;overflow-y:auto;padding:8px 10px;border-radius:12px;background:#07080d;border:1px solid var(--bordo);font:12px/1.6 ui-monospace,Consolas,monospace}
+.term .riga{display:flex;gap:8px;white-space:nowrap}
+.term .ora{color:var(--off)}.term .dir{width:14px;flex:none;font-weight:700}
+.term .in .dir{color:var(--accento)}.term .out .dir{color:var(--ok)}.term .sys .dir{color:var(--att)}
+.term .err .tipo,.term .err .dir{color:var(--err)}
+.term .conn-n{color:var(--muto)}.term .tipo{overflow:hidden;text-overflow:ellipsis}.term .ms{color:var(--muto)}
+.term .vuoto{padding:30px 0}

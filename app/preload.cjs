@@ -7,5 +7,8 @@ contextBridge.exposeInMainWorld('ponte', {
   avvioAuto: (on) => ipcRenderer.invoke('avvio-auto', on),
   accediClaude: () => ipcRenderer.invoke('accedi-claude'),
   ricontrolla: () => ipcRenderer.invoke('ricontrolla'),
+  traffico: () => ipcRenderer.invoke('traffico'),
+  svuotaTraffico: () => ipcRenderer.invoke('traffico-svuota'),
+  onTraffico: (cb) => ipcRenderer.on('traffico', (_e, v) => cb(v)),
   onStato: (cb) => ipcRenderer.on('stato', (_e, s) => cb(s)),
 });

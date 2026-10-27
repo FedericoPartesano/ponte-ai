@@ -54,6 +54,9 @@ function serverDellIT() {
 // ---- stato mostrato all'utente
 let claude = { stato: 'controllo' }; // controllo | assente | nonAccesso | ok
 const live = new Map(); // id connessione -> { ponte, conn: {stato, dettaglio}, inUso }
+const traffico = []; // ultime 500 voci, solo in memoria (niente prompt ne' risposte)
+const MAX_TRAFFICO = 500;
+let idTraffico = 0;
 let win = null;
 let tray = null;
 let uscita = false;
@@ -116,6 +119,12 @@ function avvia(c) {
     code: cfg.codice,
     getToken: () => login(c.server, c.utente, decifra(c)),
     onStato: (s, d) => { l.conn = { stato: s === 'connesso' ? 'connesso' : s === 'errore' ? 'errore' : 'connessione', dettaglio: d ?? '' }; aggiorna(); },
+    onTraffico: (v) => {
+      const voce = { id: ++idTraffico, conn: c.nome, ...v, runId: v.runId?.slice(0, 8) };
+      traffico.push(voce);
+      if (traffico.length > MAX_TRAFFICO) traffico.shift();
+      win?.webContents.send('traffico', voce);
+    },
     onRun: (n) => { l.inUso = n; aggiorna(); },
   });
   aggiorna();
@@ -143,6 +152,8 @@ function mostra() {
 }
 
 ipcMain.handle('stato', () => stato());
+ipcMain.handle('traffico', () => traffico);
+ipcMain.handle('traffico-svuota', () => { traffico.length = 0; });
 ipcMain.handle('ricontrolla', () => controllaClaude());
 ipcMain.handle('aggiungi', async (_e, { nome, server, utente, password }) => {
   server = String(server ?? '').trim().replace(/\/$/, '');

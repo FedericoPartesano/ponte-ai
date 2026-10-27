@@ -127,3 +127,44 @@ $('form').onsubmit = async (e) => {
 };
 window.ponte.onStato(disegna);
 window.ponte.stato().then(disegna);
+
+// ---- scheda Attivita': terminale delle richieste
+const term = $('term');
+let inPausa = false, nonLette = 0, righe = 0;
+const MAX_RIGHE = 500;
+const ora = (t) => new Date(t).toLocaleTimeString('it-IT', { hour12: false });
+function rigaTraffico(v) {
+  const r = el('div', `riga ${v.dir}${v.errore ? ' err' : ''}`);
+  const freccia = { in: '←', out: '→', sys: '•' }[v.dir];
+  const tipo = [v.tipo, v.dettaglio && `(${v.dettaglio})`].filter(Boolean).join(' ');
+  r.append(el('span', 'ora', ora(v.ts)), el('span', 'dir', freccia), el('span', 'conn-n', v.conn), el('span', 'tipo', tipo));
+  if (v.runId) r.append(el('span', 'conn-n', `#${v.runId}`));
+  if (v.ms !== undefined) r.append(el('span', 'ms', v.ms < 1000 ? `${v.ms} ms` : `${(v.ms / 1000).toFixed(1)} s`));
+  return r;
+}
+function aggiungiTraffico(v) {
+  if (inPausa) return;
+  const fondo = term.scrollHeight - term.scrollTop - term.clientHeight < 30;
+  term.querySelector('.vuoto')?.remove();
+  term.append(rigaTraffico(v));
+  if (++righe > MAX_RIGHE) { term.firstChild.remove(); righe--; }
+  if (fondo) term.scrollTop = term.scrollHeight;
+  if ($('vista-att').hidden) { nonLette++; $('t-n').textContent = nonLette > 99 ? '99+' : nonLette; $('t-n').hidden = false; }
+}
+function vuotoTerm() { righe = 0; term.replaceChildren(el('div', 'vuoto', 'In attesa di richieste…')); }
+function scheda(att) {
+  $('vista-att').hidden = !att; $('vista-conn').hidden = att;
+  $('t-att').setAttribute('aria-selected', String(att)); $('t-conn').setAttribute('aria-selected', String(!att));
+  if (att) { nonLette = 0; $('t-n').hidden = true; term.scrollTop = term.scrollHeight; }
+}
+$('t-conn').onclick = () => scheda(false);
+$('t-att').onclick = () => scheda(true);
+$('pausa').onclick = async () => {
+  inPausa = !inPausa;
+  $('pausa').textContent = inPausa ? 'Riprendi' : 'Pausa';
+  if (!inPausa) { vuotoTerm(); (await window.ponte.traffico()).forEach(aggiungiTraffico); }
+};
+$('svuota').onclick = async () => { await window.ponte.svuotaTraffico(); vuotoTerm(); };
+vuotoTerm();
+window.ponte.onTraffico(aggiungiTraffico);
+window.ponte.traffico().then((v) => { if (v.length) term.replaceChildren(); righe = 0; v.forEach(aggiungiTraffico); });

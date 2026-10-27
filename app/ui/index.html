@@ -8,6 +8,8 @@
   <div><h1>Ponte AI</h1><div class="sotto">Gli assistenti AI lavorano dal tuo computer</div></div>
 </header>
 
+<nav class="schede" role="tablist"><button role="tab" id="t-conn" aria-selected="true">Connessioni</button><button role="tab" id="t-att" aria-selected="false">Attività <span id="t-n" class="conta" hidden></span></button></nav>
+<div id="vista-conn">
 <section id="riepilogo" class="riepilogo"><span class="grande"></span><div><strong id="r-titolo"></strong><span id="r-frase" class="t"></span></div></section>
 
 <h2>Claude</h2>
@@ -44,5 +46,10 @@
 <footer class="pie">
   <label>Avvia insieme a Windows <button type="button" role="switch" id="auto" class="interruttore" aria-checked="false"></button></label>
 </footer>
+</div>
+<section id="vista-att" hidden>
+  <div class="barra-att"><span class="sotto">Richieste in entrata e uscita (senza contenuto)</span><span class="spazio"></span><button id="pausa" class="btn piccolo">Pausa</button><button id="svuota" class="btn piccolo">Svuota</button></div>
+  <div id="term" class="term" role="log" aria-live="off"></div>
+</section>
 <script src="app.js"></script>
 </body></html>
