@@ -19,3 +19,10 @@ Il codice di abbinamento mostrato dall'app va inserito una volta nella pagina we
 ## Licenza
 
 MIT
+
+## Documentazione
+
+Il vault (wiki) parte da [vault/wiki/index.md](vault/wiki/index.md).
+
+- [Rilascio e Micelio Launcher](vault/raw/rilascio-e-launcher.md): come si pubblica una versione e perché il launcher la accetta o la scarta.
+- [Password salvata e misure di sicurezza](vault/raw/password-e-sicurezza.md)
