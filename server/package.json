@@ -1,6 +1,6 @@
 {
   "name": "@ponte-ai/server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lato backend di Ponte AI: protocollo e registro dei ponti, indipendenti dal framework (Nest, Express, Fastify)",
   "author": "Federico Partesano",
   "license": "MIT",
@@ -11,6 +11,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./protocollo": {
+      "types": "./dist/protocollo.d.ts",
+      "default": "./dist/protocollo.js"
     }
   },
   "files": [

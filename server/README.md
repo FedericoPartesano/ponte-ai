@@ -2,7 +2,7 @@
 
 Lato backend di Ponte AI, indipendente dal framework (Nest, Express, Fastify).
 
-- `protocollo`: nomi degli eventi, tipi, codice di abbinamento (`/agent`, `run`, `cancel`, `event`, `x-bridge-code`).
+- `protocollo` (anche come `@ponte-ai/server/protocollo`, senza dipendenze Node: usabile dal browser): nomi degli eventi, tipi, codice di abbinamento (`/agent`, `run`, `cancel`, `event`, `x-bridge-code`).
 - `RegistroPonti`: ponti collegati per utente + codice, esecuzioni in corso, timeout, annullamento.
 
 ## Uso
