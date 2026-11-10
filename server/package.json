@@ -1,0 +1,41 @@
+{
+  "name": "@ponte-ai/server",
+  "version": "0.1.0",
+  "description": "Lato backend di Ponte AI: protocollo e registro dei ponti, indipendenti dal framework (Nest, Express, Fastify)",
+  "author": "Federico Partesano",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FedericoPartesano/ponte-ai.git",
+    "directory": "server"
+  },
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "node --test src/*.test.ts",
+    "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  }
+}

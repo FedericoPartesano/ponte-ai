@@ -1,10 +1,14 @@
 {
   "name": "ponte-ai",
   "private": true,
-  "workspaces": ["core", "app"],
+  "workspaces": [
+    "core",
+    "app",
+    "server"
+  ],
   "scripts": {
     "start": "npm start --workspace app",
-    "test": "npm test --workspace core",
+    "test": "npm test --workspace core --workspace server",
     "dist": "npm run dist --workspace app"
   }
 }
