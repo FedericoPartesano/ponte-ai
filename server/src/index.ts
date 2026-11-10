@@ -1,2 +1,3 @@
-export * from "./protocollo.ts";
-export * from "./registro.ts";
+export * from "./protocol.ts";
+export * from "./registry.ts";
+export * from "./gateway.ts";

@@ -1,22 +1,46 @@
 # @ponte-ai/server
 
-Lato backend di Ponte AI, indipendente dal framework (Nest, Express, Fastify).
+Backend side of [Ponte AI](https://github.com/FedericoPartesano/ponte-ai), framework-agnostic
+(Socket.IO, Nest, Express, Fastify). Each application plugs in its own authentication, texts and
+prompt; this package holds what is the same everywhere.
 
-- `protocollo` (anche come `@ponte-ai/server/protocollo`, senza dipendenze Node: usabile dal browser): nomi degli eventi, tipi, codice di abbinamento (`/agent`, `run`, `cancel`, `event`, `x-bridge-code`).
-- `RegistroPonti`: ponti collegati per utente + codice, esecuzioni in corso, timeout, annullamento.
+- `protocol` (also `@ponte-ai/server/protocol`, no Node dependencies, safe for the browser): event names, types, pairing code helpers (`/agent`, `run`, `cancel`, `event`, `x-bridge-code`).
+- `BridgeRegistry`: connected bridges per user + pairing code, runs in progress, timeout, cancel.
+- `attachGateway`: wires the `/agent` Socket.IO namespace to a registry.
 
-## Uso
+## Usage
 
-    import { RegistroPonti, ErrorePonte, AGENT_NAMESPACE, normalizzaCodiceAbbinamento } from '@ponte-ai/server';
+```ts
+import { AGENT_NAMESPACE, BridgeError, BridgeRegistry, attachGateway, normalizePairingCode } from '@ponte-ai/server';
 
-    const registro = new RegistroPonti({ timeoutMs: 180_000, messaggi: () => ({ nessunPonte: tr('...') }) });
+const registry = new BridgeRegistry({
+  timeoutMs: 180_000,                           // default
+  messages: () => ({ noBridge: t('...') }),     // optional: your i18n; evaluated at every error
+});
 
-    // gateway Socket.IO, dopo aver verificato il token dell'handshake
-    registro.register(utente, codice, socket);
-    socket.on('event', (b) => registro.receive(utente, codice, b.runId, b.event));
-    socket.on('disconnect', () => registro.unregister(utente, codice, socket));
+// Socket.IO: verify the handshake yourself, return the user name (or null to reject)
+attachGateway(io.of(AGENT_NAMESPACE), registry, {
+  authenticate: ({ token }) => verifyJwt(token)?.sub ?? null,
+});
 
-    // rotta HTTP: `start` lancia ErrorePonte (`http` 400|503, `codice`): traducila nell'eccezione del framework
-    const annulla = registro.start(utente, codice, { prompt, token }, (evento) => sse.write(evento));
+// HTTP route: `start` throws BridgeError (`http` 400 | 503, `code`): map it to your framework's exception
+const cancel = registry.start(user, normalizePairingCode(req.headers['x-bridge-code']),
+  { prompt, token }, (event) => sse.write(event));
+```
 
-L'autenticazione dell'handshake resta nell'applicazione.
+Nest: use `attachGateway(server, registry, ...)` in `afterInit(server)` of a
+`@WebSocketGateway({ namespace: AGENT_NAMESPACE })`, and wrap `BridgeRegistry` in an injectable
+service that turns `BridgeError` into `BadRequestException` / `ServiceUnavailableException`.
+
+A rejected handshake fails with `connect_error: unauthorized`; the bridge retries with a fresh
+token (a server-side `disconnect` would never be retried by socket.io clients).
+
+## Extension points
+
+| What | How |
+| --- | --- |
+| Authentication, user name | `attachGateway(..., { authenticate })` |
+| Texts / language | `BridgeRegistry({ messages })` |
+| Run cap | `BridgeRegistry({ timeoutMs })` |
+| Errors to HTTP | catch `BridgeError` (`http`, `code`) |
+| Prompt, MCP tools, output blocks | your application (not in this package) |
